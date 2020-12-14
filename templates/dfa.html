@@ -23,10 +23,11 @@
         </div>
         <div align = "center">
             {% if imagen -%}
-                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your DFA</a>
+                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your DFA || </a>
             {% endif -%}
             {% if embedder -%}
-                 <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your DFA image</a>
+                <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your DFA image</a><br>
+                <img src={{ url_for('download',filename=embedder)}} alt="Your DFA"> 
             {% endif -%}
         </div>
     </body>

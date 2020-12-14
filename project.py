@@ -5,6 +5,7 @@ from flask import current_app
 from flask import send_from_directory
 from alignment import globalalignmentrunner, localalignmentrunner, affinealignmentrunner, affinelogalignmentrunner
 from dfa import runWithString
+from upgma import runner
 import os
 
 UPLOAD_FOLDER = 'uploads'
@@ -24,6 +25,16 @@ def dfa():
         return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
     else:
         return render_template('dfa.html', error=error, seqone = "", imagen = "", embedder = "")
+
+@app.route('/upgma', methods=['GET', 'POST'])
+def upgma():
+    error = None
+    if request.method == 'POST':
+        seqone = request.form['seqone']
+        image, embedder = runWithString(seqone)
+        return render_template('upgma.html', error=error, imagen = image, embedder = embedder)
+    else:
+        return render_template('upgma.html', error=error, imagen = "", embedder = "")
 
 @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
 def download(filename):

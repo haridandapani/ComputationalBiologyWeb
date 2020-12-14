@@ -1,0 +1,4 @@
+digraph dfa {
+  0 -> 1 [ label = "D"];
+  1 [ peripheries = 2 ];
+}

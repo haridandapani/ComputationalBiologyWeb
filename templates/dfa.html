@@ -1,0 +1,31 @@
+<html>
+<meta charset="UTF-8">
+
+<title>Alignment</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+
+    <body onload>
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former" align = "center">
+            <form class = "basic-form" id = "thisForm" method = "POST" action="/dfa" enctype="multipart/form-data">
+                <label for = "seqone">Sequence for DFA:</label>
+                <br>
+                <input type="text" id = "seqone" name = "seqone" value = "{{seqone}}" size="100" required>
+                <br>
+                <input class = "small-button" type = "submit" value="Submit">
+            </form>
+        </div>
+        <div align = "center">
+            {% if imagen -%}
+                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your DFA</a>
+                <a href="{{ url_for('download',filename='file.png')}}" download={{imagen}}>Download your DFA</a>
+            {% endif -%}
+        </div>
+    </body>
+</html>

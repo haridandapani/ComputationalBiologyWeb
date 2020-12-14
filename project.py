@@ -1,9 +1,13 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import current_app
+from flask import send_from_directory
 from alignment import globalalignmentrunner, localalignmentrunner, affinealignmentrunner, affinelogalignmentrunner
+from dfa import runWithString
+import os
 
-UPLOAD_FOLDER = '/uploads'
+UPLOAD_FOLDER = 'uploads'
 app = Flask(__name__,static_folder='./static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -11,8 +15,23 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def home():
     return render_template('home.html')
 
+@app.route('/dfa', methods=['GET', 'POST'])
+def dfa():
+    error = None
+    if request.method == 'POST':
+        seqone = request.form['seqone']
+        image = runWithString(seqone)
+        return render_template('dfa.html', error=error, seqone = "", imagen = image)
+    else:
+        return render_template('dfa.html', error=error, seqone = "", imagen = "")
+
+@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    uploads = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'])
+    return send_from_directory(directory=uploads, filename=filename)
+
 @app.route('/alignment', methods=['GET', 'POST'])
-def login():
+def align():
     error = None
     seqtwo = ""
     if request.method == 'POST':

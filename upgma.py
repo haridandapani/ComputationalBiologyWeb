@@ -1,4 +1,6 @@
 import sys
+import graphviz
+import pydot
 
 class MatchPair:
     def __init__(self, char1, char2):
@@ -159,7 +161,7 @@ def runner(distances : str, fileName : str, matrix : bool):
     if matrix:
         storage, clusters, namedepth, heights = openMatrixFormat(distances)
     else:
-        storage, clusters, namedepth, heights = openAndStore(distances)#openMatrixFormat(distances)#
+        storage, clusters, namedepth, heights = openAndStore(distances)
 
     text = ""
     while len(clusters) > 2:
@@ -169,11 +171,8 @@ def runner(distances : str, fileName : str, matrix : bool):
     end = ""
     if (len(clusters) != 0):
         end, text = finish(clusters, namedepth, text, heights, storage)
-    writeToFile(text, "uploads/"+fileName)
-    return fileName
-   #print(end)
-
-#runner("wikipedia.dist", "output2.dot", False)
-#runner("wiki.m", "output3.dot", True)
-# thing over 2 - children avg
-
+    path = "uploads/"+fileName
+    writeToFile(text, path+".dot")
+    (graph,) = pydot.graph_from_dot_file(path+".dot")
+    graph.write_png(path+'.png')
+    return fileName+".dot", fileName+".png"

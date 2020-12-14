@@ -20,9 +20,12 @@ def home():
 def dfa():
     error = None
     if request.method == 'POST':
-        seqone = request.form['seqone']
-        image, embedder = runWithString(seqone)
-        return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
+        try:
+            seqone = request.form['seqone']
+            image, embedder = runWithString(seqone)
+            return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
+        except:
+            return render_template('dfa.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "")
     else:
         return render_template('dfa.html', error=error, seqone = "", imagen = "", embedder = "")
 
@@ -35,16 +38,16 @@ def upgma():
                 dister = request.files['dister']
                 saveloc = "uploads/"+dister.filename
                 dister.save(saveloc)
-                secname = dister.filename.split(".")[0]+".dot"
-                output = runner(saveloc, secname, False)
-                return render_template('upgma.html', error=error, imagen = output, embedder = "")
+                secname = dister.filename.split(".")[0]
+                output, embedder = runner(saveloc, secname, False)
+                return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']
                 saveloc = "uploads/"+dister.filename
                 dister.save(saveloc)
-                secname = dister.filename.split(".")[0]+".dot"
-                output = runner(saveloc, secname, True)
-                return render_template('upgma.html', error=error, imagen = output, embedder = "")
+                secname = dister.filename.split(".")[0]
+                output, embedder = runner(saveloc, secname, True)
+                return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
         except Exception as e:
             print(e)
             return render_template('upgma.html', error="An error occurred processing your input.", imagen = "", embedder = "")

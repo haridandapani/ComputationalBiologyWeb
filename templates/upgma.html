@@ -41,7 +41,7 @@
             {% endif -%}
             {% if embedder -%}
                 <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your UPGMA image</a><br>
-                <img src={{ url_for('download',filename=embedder)}} alt="Your DFA"> 
+                <img src={{ url_for('download',filename=embedder)}} alt="Your Phylogeny"> 
             {% endif -%}
             {% if error -%}
               <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>

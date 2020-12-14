@@ -1,7 +1,6 @@
 import sys
 import graphviz
 import pydot
-from graphviz import Source
 
 def openSequences(file : str):
     texts = open(file, "r")

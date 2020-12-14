@@ -24,7 +24,6 @@
         <div align = "center">
             {% if imagen -%}
                 <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your DFA</a>
-                <a href="{{ url_for('download',filename='file.png')}}" download={{imagen}}>Download your DFA</a>
             {% endif -%}
         </div>
     </body>

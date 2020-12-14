@@ -1,0 +1,12 @@
+digraph dfa {
+  0 -> 1 [ label = "O"];
+  1 -> 2 [ label = "B"];
+  2 -> 3 [ label = "A"];
+  3 -> 4 [ label = "M"];
+  4 -> 5 [ label = "A"];
+  5 [ peripheries = 2 ];
+  1 -> 1 [ label = "O"];
+  2 -> 1 [ label = "O"];
+  3 -> 1 [ label = "O"];
+  4 -> 1 [ label = "O"];
+}

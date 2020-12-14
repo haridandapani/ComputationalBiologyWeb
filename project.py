@@ -20,10 +20,10 @@ def dfa():
     error = None
     if request.method == 'POST':
         seqone = request.form['seqone']
-        image = runWithString(seqone)
-        return render_template('dfa.html', error=error, seqone = "", imagen = image)
+        image, embedder = runWithString(seqone)
+        return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
     else:
-        return render_template('dfa.html', error=error, seqone = "", imagen = "")
+        return render_template('dfa.html', error=error, seqone = "", imagen = "", embedder = "")
 
 @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
 def download(filename):

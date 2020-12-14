@@ -25,6 +25,9 @@
             {% if imagen -%}
                 <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your DFA</a>
             {% endif -%}
+            {% if embedder -%}
+                <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your DFA</a>
+            {% if embedder -%}
         </div>
     </body>
 </html>

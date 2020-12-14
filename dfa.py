@@ -77,7 +77,7 @@ def runWithString(seq : str):
     name = "uploads/"+seq[0:15]
     writeFile(name+".dot", output)
     (graph,) = pydot.graph_from_dot_file(name+".dot")
-    graph.write_png('uploads/file.png')
-    return seq[0:15]+".dot"
+    graph.write_png(name+'.png')
+    return (seq[0:15]+".dot", seq[0:15]+".png")
 
 

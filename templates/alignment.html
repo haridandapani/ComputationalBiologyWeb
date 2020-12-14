@@ -1,0 +1,86 @@
+<html>
+<meta charset="UTF-8">
+
+<title>Alignment</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src = "{{ url_for('static',filename='alignment.js') }}"></script>
+
+    <body onload = "loader()">
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former" align = "center">
+            <form class = "basic-form" id = "thisForm" method = "POST" action="/alignment" enctype="multipart/form-data">
+                <label for = "seqone">First Sequence to Align: </label>
+                <br>
+                <input type="text" id = "seqone" name = "seqone" value = "{{seqone}}" size="100" required>
+                <br>
+                <label for = "seqtwo">Second Sequence to Align: </label>
+                <br>
+                <input type="text" id = "seqtwo" name = "seqtwo" value = "{{seqtwo}}" size="100" required>
+                <br>
+                <b><label>What is your alignment technique?</label></b>
+                <label>Local Alignment<input type="radio" id="local" name="aligner" value="local" {{'checked="checked"' if aligner == "local"else ""}}></label>
+                <label>Global Alignment<input type="radio" id="global" name="aligner" value="global" {{'checked="checked"' if aligner == "global"else ""}}></label>
+                <label>Affine with linear penalty<input type="radio" id="affine" name="aligner" value="affine" {{'checked="checked"' if aligner == "affine" else ""}}></label>
+                <label>Affine with logarithmic penalty<input type="radio" id="affinelog" name="aligner" value="affinelog" {{'checked="checked"' if aligner =="affinelog" else ""}}></label>
+                <br>
+                <b><label for = "indel">Indel / Gap Score:</label></b>
+                <br>
+                <input type="number" id = "indel" name = "indel" value = "{{indel}}" required>
+
+                <div id = "affiner">
+                    <br>
+                    <b><label for = "indelcont">Continued Indel / Gap Score:</label></b>
+                    <br>
+                    <input type="number" id = "indelcont" name = "indelcont" value = "{{indelcont}}" required>
+                </div>
+
+                <div id = "affinelogger">
+                    <br>
+                    <b><label for = "indellog">Affine log base:</label></b>
+                    <br>
+                    <input type="number" id = "indellog" name = "indellog" value = "{{indellog}}" min = 1 required>
+                </div>
+
+
+                <br>
+                <b><label for = "scoring">Scoring Matrix:
+                    <input type="file" id="scoring" name="scoring" accept=".m,.txt" required>
+                 </label></b>
+                 <br/>
+                 <br>
+                 <div id = "opter">
+                    <b><label>What are you optimizing?</label></b>
+                    <label>Minimize Distance<input type="radio" id="distance" name="optimization" value="distance" {{'checked="checked"' if optimization =="distance" else ""}}></label>
+                    <label>Maximize Score<input type="radio" id="score" name="optimization" value="score" {{'checked="checked"' if optimization =="score" else ""}}></label>
+                    <br>
+                </div>
+
+                <input class = "small-button" type = "submit" value="Submit">
+            </form>
+            <a href="{{ url_for('static',filename='standard.m') }}" download="standard.m">Download sample matrix file</a>
+        </div>
+
+        <div id = "output" align = "center">
+            <hr>
+            <code>Output</code>
+            {% if seqx  -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ seqx }}</h3>
+            {% endif -%}
+            {% if seqy -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ seqy }}</h3>
+            {% endif -%}
+            {% if score -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ score }}</h3>
+            {% endif -%}
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
+            {% endif -%}
+        </div>
+    </body>
+</html>

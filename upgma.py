@@ -169,7 +169,8 @@ def runner(distances : str, fileName : str, matrix : bool):
     end = ""
     if (len(clusters) != 0):
         end, text = finish(clusters, namedepth, text, heights, storage)
-    writeToFile(text, fileName)
+    writeToFile(text, "uploads/"+fileName)
+    return fileName
    #print(end)
 
 #runner("wikipedia.dist", "output2.dot", False)

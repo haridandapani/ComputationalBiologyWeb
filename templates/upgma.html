@@ -37,11 +37,14 @@
         <hr>
         <div align = "center">
             {% if imagen -%}
-                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your UPGMA dot || </a>
+                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your UPGMA dot   </a>
             {% endif -%}
             {% if embedder -%}
                 <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your UPGMA image</a><br>
                 <img src={{ url_for('download',filename=embedder)}} alt="Your DFA"> 
+            {% endif -%}
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
             {% endif -%}
         </div>
     </body>

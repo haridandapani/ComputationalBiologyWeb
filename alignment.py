@@ -30,8 +30,7 @@ def openScoringMatrix(file : str, gapPenalty):
     eachLine = f.readlines()
     eachChar = list()
     for i in range(0, len(eachLine)):
-        #eachChar.append(eachLine[i].rstrip().replace('\n', '').replace('  ', ' ').split(' '))
-        eachChar.append(eachLine[i].replace('\n', '').split())
+       eachChar.append(eachLine[i].replace('\n', '').split())
     scores = dict()
     for i in range(1, len(eachChar)):
         for j in range(1, len(eachChar[i])):
@@ -218,24 +217,55 @@ def makeAffineScoringTable(x, y, gapPenalty, continuedGapPenalty):
 
     return v_matrix, e_matrix, f_matrix, g_matrix
 
+
+def makeAffineScoringTableD(x, y, gapPenalty, continuedGapPenalty):
+    v_matrix = list()
+    e_matrix = list()
+    f_matrix = list()
+    g_matrix = list()
+    for row in range(x):
+        v_lister = list()
+        e_lister = list()
+        f_lister = list()
+        g_lister = list()
+        for col in range(y):
+            if row == 0 and col == 0:
+                v_lister.append(ScoreMatrix(0, 0))
+                e_lister.append(ScoreMatrix(float('inf'), 0))
+                f_lister.append(ScoreMatrix(float('inf'), 0))
+                g_lister.append(float('inf'))
+            elif row == 0:
+                e_lister.append(ScoreMatrix(gapPenalty + col * continuedGapPenalty, 0))
+                v_lister.append(ScoreMatrix(gapPenalty + col * continuedGapPenalty, 1))
+                f_lister.append(ScoreMatrix(float('inf'), -1))
+                g_lister.append(float('inf'))
+            elif col == 0:
+                f_lister.append(ScoreMatrix(gapPenalty + row * continuedGapPenalty, 0))
+                v_lister.append(ScoreMatrix(gapPenalty + row * continuedGapPenalty, 2))
+                e_lister.append(ScoreMatrix(float('inf'), -1))
+                g_lister.append(float('inf'))
+            else:
+                v_lister.append(ScoreMatrix(float('inf'), -1))
+                e_lister.append(ScoreMatrix(float('inf'), -1))
+                f_lister.append(ScoreMatrix(float('inf'), -1))
+                g_lister.append(float('inf'))
+        
+        v_matrix.append(v_lister)
+        f_matrix.append(f_lister)
+        e_matrix.append(e_lister)
+        g_matrix.append(g_lister)
+
+    return v_matrix, e_matrix, f_matrix, g_matrix
+
 def affineTraceback(seq1, seq2, scoringScheme, gapPenalty, continuedGapPenalty, optimization):
-    v_matrix, e_matrix, f_matrix, g_matrix = makeAffineScoringTable(len(seq1) + 1, len(seq2) + 1, gapPenalty, continuedGapPenalty)
+    if optimization == "score":
+        v_matrix, e_matrix, f_matrix, g_matrix = makeAffineScoringTable(len(seq1) + 1, len(seq2) + 1, gapPenalty, continuedGapPenalty)
+    else:
+        v_matrix, e_matrix, f_matrix, g_matrix = makeAffineScoringTableD(len(seq1) + 1, len(seq2) + 1, gapPenalty, continuedGapPenalty)
     for i in range(1, len(v_matrix)):
         for j in range(1, len(v_matrix[i])):
 
-            if optimization == "score":
-                g_matrix[i][j] = v_matrix[i - 1][j - 1].score + scoringScheme[MatchPair(seq1[i - 1].upper(), seq2[j - 1].upper())]
-                
-                e_matrix[i][j] = maxScoreMatrix({ScoreMatrix(e_matrix[i][j - 1].score + continuedGapPenalty, 1),
-                                                 ScoreMatrix(v_matrix[i][j - 1].score + gapPenalty + continuedGapPenalty, 4)})
-                
-                f_matrix[i][j] = maxScoreMatrix({ScoreMatrix(f_matrix[i - 1][j].score + continuedGapPenalty, 2),
-                                                 ScoreMatrix(v_matrix[i - 1][j].score + gapPenalty + continuedGapPenalty, 4)})
-
-                v_matrix[i][j] = maxScoreMatrix({ScoreMatrix(g_matrix[i][j], 3),
-                                                 ScoreMatrix(f_matrix[i][j].score, 2),
-                                                 ScoreMatrix(e_matrix[i][j].score, 1)})
-            else:
+            if optimization == "distance":
                 g_matrix[i][j] = v_matrix[i - 1][j - 1].score + scoringScheme[MatchPair(seq1[i - 1].upper(), seq2[j - 1].upper())]
                 
                 e_matrix[i][j] = minScoreMatrix({ScoreMatrix(e_matrix[i][j - 1].score + continuedGapPenalty, 1),
@@ -247,10 +277,24 @@ def affineTraceback(seq1, seq2, scoringScheme, gapPenalty, continuedGapPenalty, 
                 v_matrix[i][j] = minScoreMatrix({ScoreMatrix(g_matrix[i][j], 3),
                                                  ScoreMatrix(f_matrix[i][j].score, 2),
                                                  ScoreMatrix(e_matrix[i][j].score, 1)})
+            else:
+                g_matrix[i][j] = v_matrix[i - 1][j - 1].score + scoringScheme[MatchPair(seq1[i - 1].upper(), seq2[j - 1].upper())]
+                
+                e_matrix[i][j] = maxScoreMatrix({ScoreMatrix(e_matrix[i][j - 1].score + continuedGapPenalty, 1),
+                                                 ScoreMatrix(v_matrix[i][j - 1].score + gapPenalty + continuedGapPenalty, 4)})
+                
+                f_matrix[i][j] = maxScoreMatrix({ScoreMatrix(f_matrix[i - 1][j].score + continuedGapPenalty, 2),
+                                                 ScoreMatrix(v_matrix[i - 1][j].score + gapPenalty + continuedGapPenalty, 4)})
+
+                v_matrix[i][j] = maxScoreMatrix({ScoreMatrix(g_matrix[i][j], 3),
+                                                 ScoreMatrix(f_matrix[i][j].score, 2),
+                                                 ScoreMatrix(e_matrix[i][j].score, 1)})
+
+
 
     seqX = ""
     seqY = ""
-    
+
     i = len(seq1)
     j = len(seq2)
     finalScore = v_matrix[i][j].score
@@ -283,10 +327,49 @@ def affineTraceback(seq1, seq2, scoringScheme, gapPenalty, continuedGapPenalty, 
                 seqX = seq1[i - 1] + seqX
                 i = i - 1
             
-    return (seqX, seqY, finalScore) 
+    return (seqX, seqY, finalScore)
 
 
 def makeScoringTableLog(x, y, gapPenalty, logger):
+    v_matrix = list()
+    e_matrix = list()
+    f_matrix = list()
+    g_matrix = list()
+    for row in range(x):
+        v_lister = list()
+        e_lister = list()
+        f_lister = list()
+        g_lister = list()
+        for col in range(y):
+            if row == 0 and col == 0:
+                v_lister.append(ScoreMatrix(0, 0))
+                e_lister.append(ScoreMatrix(float('-inf'), 0))
+                f_lister.append(ScoreMatrix(float('-inf'), 0))
+                g_lister.append(float('-inf'))
+            elif row == 0:
+                e_lister.append(ScoreMatrix(gapPenalty + math.log(col, logger), 0))
+                v_lister.append(ScoreMatrix(gapPenalty + math.log(col, logger), 1))
+                f_lister.append(ScoreMatrix(float('-inf'), -1))
+                g_lister.append(float('-inf'))
+            elif col == 0:
+                f_lister.append(ScoreMatrix(gapPenalty + math.log(row, logger), 0))
+                v_lister.append(ScoreMatrix(gapPenalty + math.log(row, logger), 2))
+                e_lister.append(ScoreMatrix(float('-inf'), -1))
+                g_lister.append(float('-inf'))
+            else:
+                v_lister.append(ScoreMatrix(float('-inf'), -1))
+                e_lister.append(ScoreMatrix(float('-inf'), -1))
+                f_lister.append(ScoreMatrix(float('-inf'), -1))
+                g_lister.append(float('-inf'))
+        
+        v_matrix.append(v_lister)
+        f_matrix.append(f_lister)
+        e_matrix.append(e_lister)
+        g_matrix.append(g_lister)
+
+    return v_matrix, e_matrix, f_matrix, g_matrix
+
+def makeScoringTableLogD(x, y, gapPenalty, logger):
     v_matrix = list()
     e_matrix = list()
     f_matrix = list()
@@ -352,7 +435,10 @@ def minScoreMatrixlog(lister):
     return (best, the_counter - 1)
 
 def logaffinetraceback(seq1, seq2, scoringScheme, gapPenalty, optimization, logger):
-    v_matrix, e_matrix, f_matrix, g_matrix =  makeScoringTableLog(len(seq1) + 1, len(seq2) + 1, gapPenalty, logger)
+    if optimization == "score":
+        v_matrix, e_matrix, f_matrix, g_matrix = makeScoringTableLog(len(seq1) + 1, len(seq2) + 1, gapPenalty, logger)
+    else:
+        v_matrix, e_matrix, f_matrix, g_matrix = makeScoringTableLogD(len(seq1) + 1, len(seq2) + 1, gapPenalty, logger)
 
     for i in range(1, len(v_matrix)):
         for j in range(1, len(v_matrix[i])):
@@ -377,10 +463,10 @@ def logaffinetraceback(seq1, seq2, scoringScheme, gapPenalty, optimization, logg
                 else:
                     fbacker = 2
                     
-                e_matrix[i][j] = ScoreMatrix(temp[0].score + gapPenalty + math.log(j - temp[1], logger), ebacker)
+                e_matrix[i][j] = ScoreMatrix(temp[0].score + gapPenalty - math.log(j - temp[1], logger), ebacker)
                     
 
-                f_matrix[i][j] = ScoreMatrix(gootemp[0].score + gapPenalty + math.log(i - gootemp[1], logger), fbacker)
+                f_matrix[i][j] = ScoreMatrix(gootemp[0].score + gapPenalty - math.log(i - gootemp[1], logger), fbacker)
                 
                 v_matrix[i][j] = maxScoreMatrixlog({ScoreMatrix(g_matrix[i][j], 3),
                                                  ScoreMatrix(f_matrix[i][j].score, 2),

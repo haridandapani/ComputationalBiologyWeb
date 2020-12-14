@@ -22,7 +22,6 @@ $(document).ready(function(){
 });
 
 function loader(){
-  console.log("here");
   if (document.getElementById("local").checked){
     $("#opter").hide();
     $("#affiner").hide();

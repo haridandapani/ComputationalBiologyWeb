@@ -1,31 +1,3 @@
 https://flask.palletsprojects.com/en/1.1.x/quickstart/
 export FLASK_APP=flasktest.py
 flask run
-
-$(document).ready(function(){
-
-  $('input[type="radio"]').click(function(){
-    loader()
-  });
-});
-
-function loader(){
-  console.log("here");
-  if (document.getElementById("local").checked){
-    $("#opter").hide();
-    $("#affiner").hide();
-    $("#affinelogger").hide();
-  } else if (document.getElementById("global").checked){
-    $("#opter").show();
-    $("#affiner").hide();
-    $("#affinelogger").hide();
-  } else if (document.getElementById("affine").checked){
-    $("#opter").show();
-    $("#affiner").show();
-    $("#affinelogger").hide();
-  } else if (document.getElementById("affinelog").checked){
-    $("#opter").show();
-    $("#affiner").hide();
-    $("#affinelogger").show();
-  }
-}

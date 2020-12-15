@@ -9,6 +9,9 @@ from upgma import runner
 from kmp import knuth
 from neighborjoining import neighborrunner
 import os
+import string
+import random
+
 
 UPLOAD_FOLDER = 'uploads'
 app = Flask(__name__,static_folder='./static')
@@ -53,16 +56,16 @@ def upgma():
         try:
             if not request.files.get('matter', None):
                 dister = request.files['dister']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "uploads/"+id_generator()
                 dister.save(saveloc)
-                secname = dister.filename.split(".")[0]
+                secname = id_generator()
                 output, embedder = runner(saveloc, secname, False)
                 return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "uploads/"+id_generator()
                 dister.save(saveloc)
-                secname = dister.filename.split(".")[0]
+                secname = id_generator()
                 output, embedder = runner(saveloc, secname, True)
                 return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
         except Exception as e:
@@ -78,16 +81,16 @@ def neighbor():
         try:
             if not request.files.get('matter', None):
                 dister = request.files['dister']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "uploads/"+id_generator()
                 dister.save(saveloc)
-                secname = dister.filename.split(".")[0]
+                secname = id_generator()
                 output, embedder = neighborrunner(saveloc, secname, False)
                 return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "uploads/"+id_generator()
                 dister.save(saveloc)
-                secname = dister.filename.split(".")[0]
+                secname = id_generator()
                 output, embedder = neighborrunner(saveloc, secname, True)
                 return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
         except Exception as e:
@@ -149,5 +152,8 @@ def align():
         return render_template('alignment.html', error=error, seqone = "", seqtwo = "", indel = -1, indelcont = -2, indellog = 2, aligner = "local",
                                optimization = "distance")
 
+
+def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 if __name__ == '__main__':
     app.run(threaded=True, port=5000)

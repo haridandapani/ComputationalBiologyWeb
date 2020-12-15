@@ -171,7 +171,7 @@ def runner(distances : str, fileName : str, matrix : bool):
     end = ""
     if (len(clusters) != 0):
         end, text = finish(clusters, namedepth, text, heights, storage)
-    path = "uploads/"+fileName
+    path = "tmp/"+fileName
     writeToFile(text, path+".dot")
     (graph,) = pydot.graph_from_dot_file(path+".dot")
     graph.write_png(path+'.png')

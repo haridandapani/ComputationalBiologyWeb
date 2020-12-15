@@ -168,7 +168,7 @@ def neighborrunner(distances : str, fileName : str, matrix : bool):
 
     print("neighbors")
     dotcontent = constructTree(heights)
-    path = "uploads/"+fileName
+    path = "tmp/"+fileName
     writeToFile(dotcontent, path+".dot")
     (graph,) = pydot.graph_from_dot_file(path+".dot")
     graph.write_png(path+'.png')

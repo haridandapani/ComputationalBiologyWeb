@@ -73,7 +73,7 @@ def runner(file : str, newFile : str):
 def runWithString(seq : str):
     alphabet = getAlphabet(seq)
     output = transition(seq, alphabet)
-    name = "uploads/"+seq[0:15]
+    name = "tmp/"+seq[0:15]
     writeFile(name+".dot", output)
     (graph,) = pydot.graph_from_dot_file(name+".dot")
     graph.write_png(name+'.png')

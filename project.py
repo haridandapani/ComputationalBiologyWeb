@@ -10,7 +10,7 @@ from kmp import knuth
 from neighborjoining import neighborrunner
 import os
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'tmp'
 app = Flask(__name__,static_folder='./static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -53,14 +53,14 @@ def upgma():
         try:
             if not request.files.get('matter', None):
                 dister = request.files['dister']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "tmp/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
                 output, embedder = runner(saveloc, secname, False)
                 return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "tmp/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
                 output, embedder = runner(saveloc, secname, True)
@@ -78,14 +78,14 @@ def neighbor():
         try:
             if not request.files.get('matter', None):
                 dister = request.files['dister']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "tmp/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
                 output, embedder = neighborrunner(saveloc, secname, False)
                 return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']
-                saveloc = "uploads/"+dister.filename
+                saveloc = "tmp/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
                 output, embedder = neighborrunner(saveloc, secname, True)
@@ -96,7 +96,7 @@ def neighbor():
     else:
         return render_template('neighbor.html', error=error, imagen = "", embedder = "")
 
-@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+@app.route('/tmp/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     uploads = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'])
     return send_from_directory(directory=uploads, filename=filename)
@@ -108,7 +108,8 @@ def align():
     if request.method == 'POST':
         try:
             f = request.files['scoring']
-            saveloc = "uploads/"+f.filename
+            saveloc = "tmp/"+f.filename
+            print(saveloc)
             f.save(saveloc)
             seqx, seqy, score = "", "", 0
 
@@ -144,7 +145,8 @@ def align():
         except Exception as e:
             print(e)
             return render_template('alignment.html', error="Error processsing your input" + str(e),
-                                   seqone = seqone, seqtwo = seqtwo, indel = indel, indelcont = indelcont, indellog = indellog, aligner = aligner, optimization = optimization)
+                                   seqone = "", seqtwo = "", indel = -1, indelcont = -2, indellog = 2, aligner = "local",
+                               optimization = "distance")
     else:
         return render_template('alignment.html', error=error, seqone = "", seqtwo = "", indel = -1, indelcont = -2, indellog = 2, aligner = "local",
                                optimization = "distance")

@@ -92,7 +92,7 @@ def neighbor():
                 return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
         except Exception as e:
             print(e)
-            return render_template('neighbor.html', error="An error occurred processing your input.", imagen = "", embedder = "")
+            return render_template('neighbor.html', error="An error occurred processing your input.  " + str(e), imagen = "", embedder = "")
     else:
         return render_template('neighbor.html', error=error, imagen = "", embedder = "")
 

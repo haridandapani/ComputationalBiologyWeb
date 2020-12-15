@@ -149,7 +149,7 @@ def constructTree(heights):
 def writeToFile(text : str, fileName : str):
     f = open(fileName, "a")
     f.truncate(0)
-    f.write(output)
+    f.write(text)
     f.close()
 
 def neighborrunner(distances : str, fileName : str, matrix : bool):

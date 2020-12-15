@@ -149,7 +149,7 @@ def constructTree(heights):
 def writeToFile(text : str, fileName : str):
     f = open(fileName, "a")
     f.truncate(0)
-    f.write(output)
+    f.write(text)
     f.close()
 
 def neighborrunner(distances : str, fileName : str, matrix : bool):
@@ -169,7 +169,7 @@ def neighborrunner(distances : str, fileName : str, matrix : bool):
     dotcontent = constructTree(heights)
     path = "uploads/"+fileName
     writeToFile(dotcontent, path+".dot")
-    (graph,) = pydot.graph_from_dot_file(path+".dot")
-    graph.write_png(path+'.png')
-    return fileName+".dot", fileName+".png"
-
+    #(graph,) = pydot.graph_from_dot_file(path+".dot")
+    #graph.write_png(path+'.png')
+    #return fileName+".dot", fileName+".png"
+    return fileName+".dot", ""

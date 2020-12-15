@@ -26,8 +26,8 @@ def dfa():
             seqone = request.form['seqone']
             image, embedder = runWithString(seqone)
             return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
-        except:
-            return render_template('dfa.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "")
+        except Exception as e:
+            return render_template('dfa.html', error="An error occurred processing your input."+str(e), seqone = "", imagen = "", embedder = "")
     else:
         return render_template('dfa.html', error=error, seqone = "", imagen = "", embedder = "")
 
@@ -42,7 +42,7 @@ def kmp():
             return render_template('kmp.html', error=error, search = search, pattern = pattern, highlights = highlights, failure = failure, lister = lister)
         except Exception as e:
             print(e)
-            return render_template('kmp.html', error="An error occurred processing your KMP input.", search = "", pattern = "", highlights = "", failure = "", lister = "")
+            return render_template('kmp.html', error="An error occurred processing your KMP input."+str(e), search = "", pattern = "", highlights = "", failure = "", lister = "")
     else:
         return render_template('kmp.html', error=error, search = "", pattern = "", highlights = "", failure = "", lister = "")
 
@@ -67,7 +67,7 @@ def upgma():
                 return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
         except Exception as e:
             print(e)
-            return render_template('upgma.html', error="An error occurred processing your input.", imagen = "", embedder = "")
+            return render_template('upgma.html', error="An error occurred processing your input."+str(e), imagen = "", embedder = "")
     else:
         return render_template('upgma.html', error=error, imagen = "", embedder = "")
 
@@ -143,7 +143,7 @@ def align():
                                    seqone = seqone, seqtwo = seqtwo, indel = indel, indelcont = indelcont, indellog = indellog, aligner = aligner, optimization = optimization)
         except Exception as e:
             print(e)
-            return render_template('alignment.html', error="Error processsing your input",
+            return render_template('alignment.html', error="Error processsing your input" + str(e),
                                    seqone = seqone, seqtwo = seqtwo, indel = indel, indelcont = indelcont, indellog = indellog, aligner = aligner, optimization = optimization)
     else:
         return render_template('alignment.html', error=error, seqone = "", seqtwo = "", indel = -1, indelcont = -2, indellog = 2, aligner = "local",

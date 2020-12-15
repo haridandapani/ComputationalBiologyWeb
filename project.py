@@ -27,7 +27,7 @@ def dfa():
     if request.method == 'POST':
         try:
             seqone = request.form['seqone']
-            image, embedder = runWithString(seqone)
+            image, embedder = runWithString(seqone, id_generator())
             return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
         except:
             return render_template('dfa.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "")
@@ -111,7 +111,7 @@ def align():
     if request.method == 'POST':
         try:
             f = request.files['scoring']
-            saveloc = "uploads/"+f.filename
+            saveloc = "uploads/"+id_generator()
             f.save(saveloc)
             seqx, seqy, score = "", "", 0
 

@@ -70,13 +70,11 @@ def runner(file : str, newFile : str):
     output = transition(seq, alphabet)
     writeFile(newFile, output)
 
-def runWithString(seq : str):
+def runWithString(seq : str, filer):
     alphabet = getAlphabet(seq)
     output = transition(seq, alphabet)
-    name = "uploads/"+seq[0:15]
+    name = "uploads/"+filer
     writeFile(name+".dot", output)
     (graph,) = pydot.graph_from_dot_file(name+".dot")
     graph.write_png(name+'.png')
-    return (seq[0:15]+".dot", seq[0:15]+".png")
-
-
+    return (filer+".dot", filer+".png")

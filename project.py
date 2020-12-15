@@ -56,14 +56,14 @@ def upgma():
                 saveloc = "uploads/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
-                output, embedder = runner(saveloc, secname, False)
+                output, embedder = neighborrunner(saveloc, secname, False)
                 return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']
                 saveloc = "uploads/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
-                output, embedder = runner(saveloc, secname, True)
+                output, embedder = neighborrunner(saveloc, secname, True)
                 return render_template('upgma.html', error=error, imagen = output, embedder = embedder)
         except Exception as e:
             print(e)
@@ -81,7 +81,7 @@ def neighbor():
                 saveloc = "uploads/"+dister.filename
                 dister.save(saveloc)
                 secname = dister.filename.split(".")[0]
-                output, embedder = runner(saveloc, secname, False)
+                output, embedder = neighborrunner(saveloc, secname, False)
                 return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
             else:
                 dister = request.files['matter']

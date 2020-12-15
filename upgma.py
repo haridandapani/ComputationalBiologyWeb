@@ -84,7 +84,8 @@ def getLowestPair(storage):
     return (val1, val2)
 
 def renewStorage(storage, val1, val2, text, clusters, namedepth, heights):
-    
+
+    correction = 5.0
     val12 = [val1, val2] if val1 < val2 else [val2, val1]
     depth = max(namedepth[val1].depth, namedepth[val2].depth) + 1
     
@@ -93,8 +94,12 @@ def renewStorage(storage, val1, val2, text, clusters, namedepth, heights):
     heights[newNode] = storage[MatchPair(val12[0], val12[1])] /2
     
 
-    text += (namedepth[val1].name + str(namedepth[val1].depth) +" -- " + namedepth[newNode].name + str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val1])+']\n')
-    text += (namedepth[val2].name + str(namedepth[val2].depth) +" -- " + namedepth[newNode].name + str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val2])+']\n')
+    text += (namedepth[val1].name + str(namedepth[val1].depth) +" -- " +
+             namedepth[newNode].name + str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val1])+
+             ', minlen ='+ str((heights[newNode] - heights[val1])/correction)+']\n')
+    text += (namedepth[val2].name + str(namedepth[val2].depth) +" -- " +
+             namedepth[newNode].name + str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val2])+
+             ', minlen ='+ str((heights[newNode] - heights[val2])/correction)+']\n')
 
     clusters.remove(val1)
     clusters.remove(val2)
@@ -120,6 +125,7 @@ def renewStorage(storage, val1, val2, text, clusters, namedepth, heights):
     return copy, text, clusters, namedepth
 
 def finish(clusters, namedepth, text, heights, storage):
+    correction = 5.0
     val1 = clusters.pop()
     val2 = clusters.pop()
 
@@ -131,11 +137,12 @@ def finish(clusters, namedepth, text, heights, storage):
     newNode = "("+val1+","+val2+")" if val1 < val2 else "("+val2+","+val1+")"
     heights[newNode] = storage[MatchPair(val12[0], val12[1])] /2
     namedepth[newNode] = NameDepth(namedepth[val12[0]].name + namedepth[val12[1]].name, depth)
-    
-#    text += (namedepth[val1].name + str(namedepth[val1].depth) +" -- " + namedepth[newNode].name + str(namedepth[newNode].depth) +'\n')
-#    text += (namedepth[val2].name + str(namedepth[val2].depth) +" -- " + namedepth[newNode].name + str(namedepth[newNode].depth) +'\n')
-    text += (namedepth[val1].name + str(namedepth[val1].depth) +" -- " + namedepth[newNode].name + str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val1])+']\n')
-    text += (namedepth[val2].name + str(namedepth[val2].depth) +" -- " + namedepth[newNode].name + str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val2])+']\n')
+
+    text += (namedepth[val1].name + str(namedepth[val1].depth) +" -- " + namedepth[newNode].name +
+             str(namedepth[newNode].depth)+"[label = " + str(heights[newNode] - heights[val1])+
+             ', minlen ='+ str((heights[newNode] - heights[val1])/correction)+']\n')
+    text += (namedepth[val2].name + str(namedepth[val2].depth) +" -- " + namedepth[newNode].name +
+             ', minlen ='+ str((heights[newNode] - heights[val2])/correction)+']\n')
 
 
     return newNode, text

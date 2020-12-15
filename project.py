@@ -94,7 +94,7 @@ def neighbor():
             print(e)
             return render_template('neighbor.html', error="An error occurred processing your input.", imagen = "", embedder = "")
     else:
-        return render_template('upgma.html', error=error, imagen = "", embedder = "")
+        return render_template('neighbor.html', error=error, imagen = "", embedder = "")
 
 @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
 def download(filename):

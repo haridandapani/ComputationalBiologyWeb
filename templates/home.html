@@ -5,19 +5,19 @@
     <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
     <body>
         <br>
-        <div align = "center">
+        <div align = "center" class = "home">
             <h2>Hari Dandapani's Computational Biology Website</h2>
-            <h3>This is a work in progress, but I am adding a lot of computational biology algorithms and tools to this site.</h3>
             <h4>The alignment page allows you to test out different alignment algorithms including local alignment, global alignment,
-            global alignment with affine gap penalty, and global alignment with logarithmic gap penalty</h4>
-            <h4>It also allows you to choose your scoring scheme and what you want to optimize for your alignment.</h4> 
+            global alignment with affine gap penalty, and global alignment with logarithmic gap penalty with different settings.</h4>
             <a class = "buttoner" href = "/alignment">Alignment</a>
             <br>
             <h4>The Deterministic Finite Automata tool makes a DFA for a given string.</h4>
             <a class = "buttoner" href = "/dfa">Deterministic Finite Automata</a>
             <br>
             <h4>The UPGMA Tool makes a UPGMA for a given phylogeny.</h4>
-            <a class = "buttoner" href = "/upgma">UPGMA</a>
+            <a class = "buttoner" href = "/upgma">UPGMA</a>            
+            <h4>The KMP tool runs the Knuth Morris Pratt algorithm and finds the failure function.</h4>
+            <a class = "buttoner" href = "/kmp">KMP</a>
         </div>
     </body>
 

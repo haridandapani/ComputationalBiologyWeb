@@ -6,6 +6,7 @@ from flask import send_from_directory
 from alignment import globalalignmentrunner, localalignmentrunner, affinealignmentrunner, affinelogalignmentrunner
 from dfa import runWithString
 from upgma import runner
+from kmp import knuth
 import os
 
 UPLOAD_FOLDER = 'uploads'
@@ -28,6 +29,21 @@ def dfa():
             return render_template('dfa.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "")
     else:
         return render_template('dfa.html', error=error, seqone = "", imagen = "", embedder = "")
+
+@app.route('/kmp', methods=['GET', 'POST'])
+def kmp():
+    error = None
+    if request.method == 'POST':
+        try:
+            pattern = request.form['pattern']
+            search = request.form['search']
+            highlights, lister, failure = knuth(search, pattern)
+            return render_template('kmp.html', error=error, search = search, pattern = pattern, highlights = highlights, failure = failure, lister = lister)
+        except Exception as e:
+            print(e)
+            return render_template('kmp.html', error="An error occurred processing your KMP input.", search = "", pattern = "", highlights = "", failure = "", lister = "")
+    else:
+        return render_template('kmp.html', error=error, search = "", pattern = "", highlights = "", failure = "", lister = "")
 
 @app.route('/upgma', methods=['GET', 'POST'])
 def upgma():

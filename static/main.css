@@ -4,6 +4,7 @@ body {
 
     font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
     background:  #f4f6f6;
+    word-wrap: break-word;
 }
 
 /* HIDES PAGE ON LOAD */
@@ -409,7 +410,7 @@ label {
     font-weight: bold;
 }
 mark {
-    background-color: #DED4CE;
+    background-color: yellowgreen;
     color: black;
 }
 .hider {
@@ -426,4 +427,15 @@ mark {
   content: "";
   display: table;
   clear: both;
+}
+div.results {
+  word-wrap: break-word;
+}
+div.home{
+    width: 70%;
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -55%);
+    transform: translate(-50%, -5%);
 }

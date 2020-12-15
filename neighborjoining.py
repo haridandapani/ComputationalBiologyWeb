@@ -166,6 +166,7 @@ def neighborrunner(distances : str, fileName : str, matrix : bool):
         for key in storage.keys():
             heights[key] = storage[key]
 
+    print("neighbors")
     dotcontent = constructTree(heights)
     path = "uploads/"+fileName
     writeToFile(dotcontent, path+".dot")

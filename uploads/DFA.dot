@@ -1,8 +1,0 @@
-digraph dfa {
-  0 -> 1 [ label = "D"];
-  1 -> 2 [ label = "F"];
-  2 -> 3 [ label = "A"];
-  3 [ peripheries = 2 ];
-  1 -> 1 [ label = "D"];
-  2 -> 1 [ label = "D"];
-}

@@ -1,0 +1,51 @@
+<html>
+<meta charset="UTF-8">
+
+<title>UPGMA</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+
+    <body onload>
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former" class = "row" align = "center">
+            <div class = "column">
+                <form class = "basic-form" id = "thisForm" method = "POST" action="/neighbor" enctype="multipart/form-data">
+                    <b><label for = "dister">Distance file for Neighbor Joining
+                        <input type="file" id="dister" name="dister" accept=".dist,.txt" required>
+                    </label></b>
+                    <br>
+                    <input class = "small-button" type = "submit" value="Submit">
+                </form>
+                <a href="{{ url_for('static',filename='wikipedia.dist') }}" download="wikipedia.dist">Download sample Neighbor Joining distance file</a>
+            </div>
+            <div class = "column">
+                <form class = "basic-form" id = "thisForm2" method = "POST" action="/upgma" enctype="multipart/form-data">
+                    <b><label for = "dister">Matrix file for Neighbor Joining
+                        <input type="file" id="matter" name="matter" accept=".m,.txt" required>
+                    </label></b>
+                    <br>
+                    <input class = "small-button" type = "submit" value="Submit">
+                </form>
+                <a href="{{ url_for('static',filename='wiki.m') }}" download="wiki.m">Download sample Neighbor Joining matrix file</a>
+            </div>
+        </div>
+        <hr>
+        <div align = "center">
+            {% if imagen -%}
+                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your Neighbor Joining dot   </a>
+            {% endif -%}
+            {% if embedder -%}
+                <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your Neighbor Joining image</a><br>
+                <img src={{ url_for('download',filename=embedder)}} alt="Your Phylogeny"> 
+            {% endif -%}
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
+            {% endif -%}
+        </div>
+    </body>
+</html>

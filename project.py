@@ -7,6 +7,7 @@ from alignment import globalalignmentrunner, localalignmentrunner, affinealignme
 from dfa import runWithString
 from upgma import runner
 from kmp import knuth
+from neighborjoining import neighborrunner
 import os
 
 UPLOAD_FOLDER = 'uploads'
@@ -67,6 +68,31 @@ def upgma():
         except Exception as e:
             print(e)
             return render_template('upgma.html', error="An error occurred processing your input.", imagen = "", embedder = "")
+    else:
+        return render_template('upgma.html', error=error, imagen = "", embedder = "")
+
+@app.route('/neighbor', methods=['GET', 'POST'])
+def neighbor():
+    error = None
+    if request.method == 'POST':
+        try:
+            if not request.files.get('matter', None):
+                dister = request.files['dister']
+                saveloc = "uploads/"+dister.filename
+                dister.save(saveloc)
+                secname = dister.filename.split(".")[0]
+                output, embedder = runner(saveloc, secname, False)
+                return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
+            else:
+                dister = request.files['matter']
+                saveloc = "uploads/"+dister.filename
+                dister.save(saveloc)
+                secname = dister.filename.split(".")[0]
+                output, embedder = runner(saveloc, secname, True)
+                return render_template('neighbor.html', error=error, imagen = output, embedder = embedder)
+        except Exception as e:
+            print(e)
+            return render_template('neighbor.html', error="An error occurred processing your input.", imagen = "", embedder = "")
     else:
         return render_template('upgma.html', error=error, imagen = "", embedder = "")
 

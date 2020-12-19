@@ -1,7 +1,6 @@
 def forwardtransform(string, delimiter):
     assert len(delimiter) == 1 and delimiter not in string
     string2 = string + delimiter
-    print(string2)
     lister = list()
     for i in range(len(string2)):
         lister.append(string2[i:] + string2[0:i])

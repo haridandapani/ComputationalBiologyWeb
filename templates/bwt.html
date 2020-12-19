@@ -53,7 +53,7 @@
                 <hr>
                 {% for element in sorts %}
                     {% set outer_loop = loop.index0 %}
-                    <div class = "smallcol">
+                    <div class = "column">
                     <u>Add {{outer_loop}}</u>
                     <ul class = "top-list">
                     {% for val in adds %}
@@ -61,7 +61,7 @@
                     {% endfor %}
                     </ul>
                     </div>
-                    <div class = "smallcol">
+                    <div class = "column">
                     <u>Sort {{outer_loop}}</u>
                     <ul class = "top-list">
                     {% for val in sorts %}
@@ -74,7 +74,7 @@
             {% endif -%}
             {% if allrotations -%}
                 <hr>
-                <div class = "smallcol">
+                <div class = "column">
                 <u>All rotations</u>
                 <ul class = "top-list">
                 {% for element in allrotations %}
@@ -84,7 +84,7 @@
                 </div>
             {% endif -%}
             {% if lister -%}
-                <div class = "smallcol">
+                <div class = "column">
                 <u>Sorted (take the final column for output)</u>
                 <ul class = "top-list">
                 {% for element in lister %}

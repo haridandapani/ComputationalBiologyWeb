@@ -1,0 +1,101 @@
+<html>
+<meta charset="UTF-8">
+
+<title>Burrows Wheeler Transform</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+
+    <body onload>
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former" class = "row" align = "center">
+            <div class = "column">
+                <form class = "basic-form" id = "thisForm" method = "POST" action="/bwt" enctype="multipart/form-data">
+                    <b><label for = "fwdstring">Forward transform string
+                        <input type="text" id="fwdstring" name="fwdstring" value = "{{fwdstring}}" required>
+                    </label></b>
+                    <br>
+                    <b><label for = "fwddelimiter">Forward transform delimiter 
+                        <input type="text" id="fwddelimiter" name="fwddelimiter" value = "{{fwddelimiter}}" required>
+                        <br>(must be one character and not in the forward transform)
+                    </label></b>
+                    <br>
+                    <input class = "small-button" type = "submit" value="Submit">
+                </form>
+            </div>
+            <div class = "column">
+                <form class = "basic-form" id = "thisForm2" method = "POST" action="/bwt" enctype="multipart/form-data">
+                    <b><label for = "invstring">Inverse transform string
+                        <input type="text" id="invstring" name="invstring" value = "{{invstring}}" required>
+                    </label></b>
+                    <br>
+                    <b><label for = "invdelimiter">Inverse transform delimiter
+                        <input type="text" id="invdelimiter" name="invdelimiter" value = "{{invdelimiter}}" required>
+                         <br>(must be one character and in the inverse transform)
+                    </label></b>
+                    <br>
+                    <input class = "small-button" type = "submit" value="Submit">
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div align = "center">
+            {% if finaloutput -%}
+                <pre><h2>{{ finaloutput }}</h2></pre>
+            {% endif -%}
+            {% if sorts -%}
+                <hr>
+                <p>To get the final output, choose the element in the final sort with the delimiter as the last character.</p>
+                <hr>
+                {% for element in sorts %}
+                    {% set outer_loop = loop.index0 %}
+                    <div class = "smallcol">
+                    <u>Add {{outer_loop}}</u>
+                    <ul class = "top-list">
+                    {% for val in adds %}
+                        <pre><li>{{adds[outer_loop][loop.index0]}}</li></pre>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    <div class = "smallcol">
+                    <u>Sort {{outer_loop}}</u>
+                    <ul class = "top-list">
+                    {% for val in sorts %}
+                        <pre><li>{{sorts[outer_loop][loop.index0]}}</li></pre>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    <br>
+                {% endfor %}
+            {% endif -%}
+            {% if allrotations -%}
+                <hr>
+                <div class = "smallcol">
+                <u>All rotations</u>
+                <ul class = "top-list">
+                {% for element in allrotations %}
+                    <pre><li>{{ element }}</li></pre>
+                {% endfor %}
+                </ul>
+                </div>
+            {% endif -%}
+            {% if lister -%}
+                <div class = "smallcol">
+                <u>Sorted (take the final column for output)</u>
+                <ul class = "top-list">
+                {% for element in lister %}
+                    <pre><li>{{ element }}</li></pre>
+                {% endfor %}
+                </ul>
+                </div>
+            {% endif -%}
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
+            {% endif -%}
+        </div>
+    </body>
+</html>

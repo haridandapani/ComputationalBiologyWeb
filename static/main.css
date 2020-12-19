@@ -186,6 +186,7 @@ h2 {
     font-family: 'Lato', sans-serif;
     font-size: 28px;
     font-weight: 300;
+    word-wrap: break-word;
 }
 
 p {
@@ -195,6 +196,9 @@ p {
     font-weight: 400;
 }
 
+pre{
+    word-wrap: break-word;
+}
 code {
     font-family: 'Roboto Mono', monospace;
     font-size: 16px;
@@ -421,6 +425,10 @@ mark {
   float: left;
   width: 50%;
 }
+.smallcol {
+  float: left;
+  column-width: 10%;
+}
 
 /* Clear floats after the columns */
 .row:after {
@@ -438,4 +446,13 @@ div.home{
     left: 50%;
     -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -5%);
+}
+.top-list{
+  list-style-type: none;
+  list-style: none;
+}
+ul {
+    list-style-type: none;
+}
+li { white-space: pre; 
 }

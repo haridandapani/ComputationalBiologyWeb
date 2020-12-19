@@ -8,6 +8,7 @@ from dfa import runWithString
 from upgma import runner
 from kmp import knuth
 from neighborjoining import neighborrunner
+from burrowswheeler import forwardtransform, inversetransform
 import os
 import string
 import random
@@ -28,7 +29,7 @@ def dfa():
         try:
             seqone = request.form['seqone']
             image, embedder = runWithString(seqone, id_generator())
-            return render_template('dfa.html', error=error, seqone = "", imagen = image, embedder = embedder)
+            return render_template('dfa.html', error=error, seqone = seqone, imagen = image, embedder = embedder)
         except:
             return render_template('dfa.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "")
     else:
@@ -99,6 +100,35 @@ def neighbor():
     else:
         return render_template('neighbor.html', error=error, imagen = "", embedder = "")
 
+
+@app.route('/bwt', methods=['GET', 'POST'])
+def bwt():
+    error = None
+    if request.method == 'POST':
+        try:
+            if not request.form.get('fwdstring', None):
+                # inverse
+                string = request.form['invstring']
+                delimiter = request.form['invdelimiter']
+                finaloutput, adds, sorts = inversetransform(string, delimiter)
+                return render_template('bwt.html', error=error, finaloutput = finaloutput, adds = adds, sorts = sorts, allrotations = "", lister = "",
+                                       invstring = string, invdelimiter = delimiter, fwdstring = "", fwddelimiter = "")
+            else:
+                #forward
+                string = request.form['fwdstring']
+                delimiter = request.form['fwddelimiter']
+                finaloutput, allrotations, lister = forwardtransform(string, delimiter)
+                return render_template('bwt.html', error=error, finaloutput = finaloutput, allrotations = allrotations, lister = lister, adds = "", sorts = "",
+                                       invstring = "", invdelimiter = "", fwdstring = string, fwddelimiter = delimiter)
+        except Exception as e:
+            print(e)
+            return render_template('bwt.html', error="An error occurred processing your input.", finaloutput = "",
+                                   adds = "", sorts = "", allrotations = "", lister = "", invstring = "", invdelimiter = "", fwdstring = "", fwddelimiter = "")
+    else:
+        return render_template('bwt.html', error="", finaloutput = "", adds = "", sorts = "", allrotations = "", lister = "",
+                               invstring = "", invdelimiter = "", fwdstring = "", fwddelimiter = "")
+
+
 @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     uploads = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'])
@@ -152,8 +182,9 @@ def align():
         return render_template('alignment.html', error=error, seqone = "", seqtwo = "", indel = -1, indelcont = -2, indellog = 2, aligner = "local",
                                optimization = "distance")
 
-
 def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+
 if __name__ == '__main__':
     app.run(threaded=True, port=5000)

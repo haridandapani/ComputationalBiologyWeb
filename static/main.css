@@ -430,6 +430,17 @@ mark {
   float: left;
   width: 50%;
 }
+
+.tangential {
+  float: left;
+  width: 45%;
+}
+
+.middler{
+    float: left;
+    width: 45%; 
+}
+
 .smallcol {
   float: left;
   column-width: 10%;

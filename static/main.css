@@ -456,13 +456,12 @@ div.results {
   word-wrap: break-word;
 }
 div.home{
+    margin: auto;
     width: 70%;
-    position: fixed;
-    top: 5%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -55%);
-    transform: translate(-50%, -5%);
+    border: 1px solid black;
+    padding: 10px;
 }
+
 .top-list{
   list-style-type: none;
   list-style: none;

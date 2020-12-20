@@ -69,8 +69,8 @@ def suffixTreeMaker(seq : str, delimiter, filer):
     output = makeSuffixTree(seq, delimiter)
     name = "uploads/"+filer
     writeFile(name+".dot", output)
-    #(graph,) = pydot.graph_from_dot_file(name+".dot")
-    #graph.write_png(name+'.png')
+    (graph,) = pydot.graph_from_dot_file(name+".dot")
+    graph.write_png(name+'.png')
     return (filer+".dot", filer+".png")
 
 #makeSuffixTree("Hari")

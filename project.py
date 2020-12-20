@@ -44,7 +44,7 @@ def suffixtree():
             seqone = request.form['seqone']
             delimiter = request.form['delimiter']
             image, embedder = suffixTreeMaker(seqone, delimiter, id_generator())
-            return render_template('suffixtree.html', error=error, seqone = seqone, delimiter = delimiter,imagen = image, embedder = "")
+            return render_template('suffixtree.html', error=error, seqone = seqone, delimiter = delimiter,imagen = image, embedder = embedder)
         except Exception as e:
             print(e)
             return render_template('suffixtree.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "", delimiter = "")

@@ -1,3 +1,7 @@
+import sys
+import graphviz
+import pydot
+
 class SuffixNode:
     def __init__(self, character, depth, producer, parent = None):
         self.character = character

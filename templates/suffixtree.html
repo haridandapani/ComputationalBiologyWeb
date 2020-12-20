@@ -1,0 +1,42 @@
+<html>
+<meta charset="UTF-8">
+
+<title>Suffix Tree</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+
+    <body>
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former" align = "center">
+            <form class = "basic-form" id = "thisForm" method = "POST" action="/suffixtree" enctype="multipart/form-data">
+                <label for = "seqone">Sequence for Suffix Tree:</label>
+                <br>
+                <input type="text" id = "seqone" name = "seqone" value = "{{seqone}}" size="100" required>
+                <br>
+                <label for = "delimiter">Delimiter ending value (must be one character and not in the sequence):</label>
+                <br>
+                <input type="text" id = "delimiter" name = "delimiter" value = "{{delimiter}}" size="20" required>
+                <br>
+                <input class = "small-button" type = "submit" value="Submit">
+            </form>
+        </div>
+        <hr>
+        <div align = "center">
+            {% if imagen -%}
+                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download your Suffix Tree dot    </a>
+            {% endif -%}
+            {% if embedder -%}
+                <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download your Suffix Tree image</a><br>
+                <img src={{ url_for('download',filename=embedder)}} alt="Your Suffix Tree"> 
+            {% endif -%}
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
+            {% endif -%}
+        </div>
+    </body>
+</html>

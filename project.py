@@ -9,6 +9,7 @@ from upgma import runner
 from kmp import knuth
 from neighborjoining import neighborrunner
 from burrowswheeler import forwardtransform, inversetransform
+from suffixtree import suffixTreeMaker
 import os
 import string
 import random
@@ -34,6 +35,21 @@ def dfa():
             return render_template('dfa.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "")
     else:
         return render_template('dfa.html', error=error, seqone = "", imagen = "", embedder = "")
+
+@app.route('/suffixtree', methods=['GET', 'POST'])
+def suffixtree():
+    error = None
+    if request.method == 'POST':
+        try:
+            seqone = request.form['seqone']
+            delimiter = request.form['delimiter']
+            image, embedder = suffixTreeMaker(seqone, delimiter, id_generator())
+            return render_template('suffixtree.html', error=error, seqone = seqone, delimiter = delimiter,imagen = image, embedder = "")
+        except Exception as e:
+            print(e)
+            return render_template('suffixtree.html', error="An error occurred processing your input.", seqone = "", imagen = "", embedder = "", delimiter = "")
+    else:
+        return render_template('suffixtree.html', error=error, seqone = "", imagen = "", embedder = "", delimiter = "")
 
 @app.route('/kmp', methods=['GET', 'POST'])
 def kmp():

@@ -19,11 +19,12 @@
                 <input type="number" id = "gridsize" name = "gridsize" value = "{{gridsize}}" size="100" min = "100" max = "500" required>
                 <br>
 
-                <label for = "numclusters">Number of clusters:</label>
+                <label for = "numclusters">Number of 2D models to generate from:</label>
                 <br>
                 <input type="number" id = "numclusters" name = "numclusters" value = "{{numclusters}}" size="100" min = "1" max = "30" required>
                 <br>
-                <label>Epsilon = 4, Minimum Number of Points = 4</label>
+                <label>Hyperparameters for DBScan: Epsilon = 4, Minimum Number of Points = 4</label>
+                <label>Points are generated using a Gaussian model with the X and Y means separately between 0 and the above maximum value for points. <br> The standard deviation for a generated group is between 3 and 5. <br> Each group contains between 25 and 75 points.</label>
                 <input class = "small-button" type = "submit" value="Submit">
             </form>
         </div>

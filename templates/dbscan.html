@@ -1,0 +1,44 @@
+<html>
+<meta charset="UTF-8">
+
+<title>DBSCAN</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+
+    <body>
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former" align = "center">
+            <form class = "basic-form" id = "thisForm" method = "POST" action="/dbscan" enctype="multipart/form-data">
+                <label for = "gridsize">Maximum value for points:</label>
+                <br>
+                <input type="number" id = "gridsize" name = "gridsize" value = "{{gridsize}}" size="100" min = "100" max = "500" required>
+                <br>
+
+                <label for = "numclusters">Number of clusters:</label>
+                <br>
+                <input type="number" id = "numclusters" name = "numclusters" value = "{{numclusters}}" size="100" min = "1" max = "30" required>
+                <br>
+                <label>Epsilon = 4, Minimum Number of Points = 4</label>
+                <input class = "small-button" type = "submit" value="Submit">
+            </form>
+        </div>
+        <hr>
+        <div align = "center">
+            {% if imagen -%}
+                <a href={{ url_for('download',filename=imagen)}} download={{imagen}}>Download the source dataset </a>
+            {% endif -%}
+            {% if embedder -%}
+                <a href={{ url_for('download',filename=embedder)}} download={{embedder}}>Download the image</a><br>
+                <img src={{ url_for('download',filename=embedder)}} alt="Your DFA"> 
+            {% endif -%}
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
+            {% endif -%}
+        </div>
+    </body>
+</html>

@@ -10,6 +10,7 @@ from kmp import knuth
 from neighborjoining import neighborrunner
 from burrowswheeler import forwardtransform, inversetransform
 from suffixtree import suffixTreeMaker
+from dbscan import DBSCANWithParams
 import os
 import string
 import random
@@ -65,6 +66,37 @@ def kmp():
             return render_template('kmp.html', error="An error occurred processing your KMP input.", search = "", pattern = "", highlights = "", failure = "", lister = "")
     else:
         return render_template('kmp.html', error=error, search = "", pattern = "", highlights = "", failure = "", lister = "")
+
+@app.route('/dbscan', methods=['GET', 'POST'])
+def dbscan():
+    error = None
+    if request.method == 'POST':
+        try:
+            gridsize = request.form['gridsize']
+            numclusters = request.form["numclusters"]
+            name = id_generator()
+            csv, plot = DBSCANWithParams(gridsize, numclusters, name)
+            return render_template('dbscan.html', error=error, gridsize = "", numclusters = "", imagen = csv, embedder = plot)
+        except Exception as e:
+            print(e)
+            return render_template('dbscan.html', error="An error occurred processing your input.", gridsize = "", numclusters = "", imagen = "", embedder = "")
+    else:
+        return render_template('dbscan.html', error=error, gridsize = "", numclusters = "", imagen = "", embedder = "")
+
+#@app.route('/fwdbck', methods=['GET', 'POST'])
+def fwdbck():
+    error = None
+    if request.method == 'POST':
+        try:
+            pattern = request.form['pattern']
+            search = request.form['search']
+            highlights, lister, failure = knuth(search, pattern)
+            return render_template('forwardbackward.html', error=error, search = search, pattern = pattern, highlights = highlights, failure = failure, lister = lister)
+        except Exception as e:
+            print(e)
+            return render_template('forwardbackward.html', error="An error occurred processing your KMP input.", search = "", pattern = "", highlights = "", failure = "", lister = "")
+    else:
+        return render_template('forwardbackward.html', error=error, search = "", pattern = "", highlights = "", failure = "", lister = "")
 
 @app.route('/upgma', methods=['GET', 'POST'])
 def upgma():
@@ -148,7 +180,7 @@ def bwt():
 @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     uploads = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'])
-    return send_from_directory(directory=uploads, filename=filename)
+    return send_from_directory(uploads, filename)
 
 @app.route('/alignment', methods=['GET', 'POST'])
 def align():

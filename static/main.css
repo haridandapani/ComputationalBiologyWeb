@@ -434,6 +434,7 @@ mark {
 .tangential {
   float: left;
   width: 45%;
+   padding: 25px 50px 25px;
 }
 
 .middler{
@@ -471,3 +472,4 @@ ul {
 }
 li { white-space: pre; 
 }
+

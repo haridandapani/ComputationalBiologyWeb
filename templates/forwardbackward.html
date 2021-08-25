@@ -1,0 +1,54 @@
+<html>
+<meta charset="UTF-8">
+
+<title>Forward Backward</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src = "{{ url_for('static',filename='hmm.js') }}"></script>
+
+    <body>
+        <div id = "homer">
+            <a href = "/">Home</a>
+        </div>
+        <div id = "former">
+            <form class = "basic-form" id = "thisForm" method = "POST" action="/alignment" enctype="multipart/form-data">
+
+                <div align = "center">
+                <label for = "states">Number of States: </label>
+                <br>
+                <input type="number" id = "states" name = "states" value = "{{states}}" onchange = "changeStates()" step = 1 min = 1 max = 25 required>
+                <br>
+                <label for = "outputs">Number of outputs: </label>
+                <br>
+                <input type="number" id = "outputs" name = "outputs" value = "{{outputs}}" onchange = "changeOutputs()" step = 1 min = 1 max = 25 required>
+                    
+
+                </div>
+                <hr>
+                <br>
+                <div class="row" align = "left">
+                    <div class = "tangential">
+                        <div id="statenames"></div>
+                    </div>
+
+                    <div class = "tangential">
+                        <div id="outputnames"></div>
+                    </div>
+                </div>
+                <hr>
+                <input class = "small-button" type = "submit" value="Submit">
+            </form>
+        </div>
+
+        <div id = "output" align = "center">
+            <hr>
+            <code>Output</code>
+            {% if error -%}
+              <h3 style="font-family:'Lucida Console', monospace">{{ error }}</h3>
+            {% endif -%}
+        </div>
+    </body>
+</html>

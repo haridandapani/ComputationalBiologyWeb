@@ -49,11 +49,10 @@ def savescatter(allpoints, labels, name):
     x = allpoints[:, 0]
     y = allpoints[:, 1]
     maxnum = int(np.max(labels)) + 2
-    print(maxnum)
-    print(labels)
     colorlist = colors(maxnum)
     plt.scatter(x, y, c = labelstocolors(colorlist, labels), alpha=0.5)
     plt.savefig(name)
+    plt.close()
 
 def labelstocolors(colors, labels):
     output = []
